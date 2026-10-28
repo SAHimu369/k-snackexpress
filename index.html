@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>K-SnackExpress | Authentic Korean Snacks</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            red: '#E11D48',
+                            dark: '#0F172A',
+                            accent: '#F43F5E',
+                            light: '#FFF1F2'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar hiding for clean mobile carousel */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased pb-24 selection:bg-brand-light selection:text-brand-red">
+
+    <!-- Top Header / Announcement Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all">
+        <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-red to-brand-accent flex items-center justify-center text-white shadow-md shadow-brand-red/20 font-extrabold text-lg">
+                    🇰🇷
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-slate-900 text-base leading-tight tracking-tight">K-Snack<span class="text-brand-red">Express</span></h1>
+                    <p class="text-[10px] text-slate-500 font-medium flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Cash on Delivery • WhatsApp Orders
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Quick WhatsApp Group Button -->
+            <a href="https://chat.whatsapp.com/YOUR_GROUP_INVITE_LINK" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-3 py-1.5 rounded-full text-xs font-bold transition-all border border-emerald-200 shadow-sm">
+                <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
+                <span>Join Group</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Container (Mobile App Frame Style) -->
+    <main class="max-w-md mx-auto px-4 pt-4 space-y-5">
+
+        <!-- Hero Banner Carousel / Card -->
+        <section class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-brand-dark text-white p-5 shadow-xl shadow-slate-900/10">
+            <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-brand-red/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="relative z-10 space-y-2">
+                <span class="inline-flex items-center gap-1 bg-brand-red/30 border border-brand-red/40 text-brand-light text-[11px] font-semibold px-2.5 py-0.5 rounded-full">
+                    <i class="fa-solid fa-fire text-brand-accent"></i> Direct WhatsApp Ordering
+                </span>
+                <h2 class="text-xl font-bold tracking-tight text-white leading-snug">
+                    Authentic Korean Treats, Delivered Fresh! 🍜
+                </h2>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    Craving Buldak ramen, tteokbokki, or crispy snacks? Order instantly to our WhatsApp group. Pay safely in cash on delivery.
+                </p>
+                <div class="pt-2 flex items-center gap-3 text-xs text-slate-200 font-medium">
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-truck-fast text-brand-accent"></i> Fast Delivery</span>
+                    <span class="flex items-center gap-1"><i class="fa-solid fa-money-bill-wave text-emerald-400"></i> Cash on Delivery</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Bar -->
+        <div class="relative">
+            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <i class="fa-solid fa-magnifying-glass text-sm"></i>
+            </span>
+            <input type="text" id="searchInput" placeholder="Search ramen, snacks, drinks..." 
+                class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all shadow-sm">
+        </div>
+
+        <!-- Category Horizontal Scroll -->
+        <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4" id="categoryContainer">
+            <button onclick="filterCategory('all')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-brand-red text-white shadow-md shadow-brand-red/20" data-category="all">
+                ✨ All Items
+            </button>
+            <button onclick="filterCategory('Ramen')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm" data-category="Ramen">
+                🍜 Ramen
+            </button>
+            <button onclick="filterCategory('Topokki & Rapokki')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm" data-category="Topokki & Rapokki">
+                🌶️ Topokki & Rapokki
+            </button>
+            <button onclick="filterCategory('Smooth Coffee')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm" data-category="Smooth Coffee">
+                ☕ Smooth Coffee
+            </button>
+            <button onclick="filterCategory('Liquid')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm" data-category="Liquid">
+                💧 Liquid
+            </button>
+        </div>
+
+        <!-- Product Grid -->
+        <div id="productGrid" class="grid grid-cols-2 gap-3.5">
+            <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Empty Search State -->
+        <div id="emptyState" class="hidden text-center py-12 space-y-3">
+            <div class="w-14 h-14 bg-slate-100 rounded-full flex items-center justify-center mx-auto text-slate-400 text-xl">
+                <i class="fa-solid fa-box-open"></i>
+            </div>
+            <h3 class="font-bold text-slate-800 text-sm">No snacks found</h3>
+            <p class="text-xs text-slate-500">Try searching for something else or browse all items.</p>
+        </div>
+
+    </main>
+
+    <!-- Floating / Sticky Bottom Cart Bar -->
+    <div id="cartBar" class="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-2xl transition-transform duration-300 transform translate-y-full">
+        <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="relative w-10 h-10 bg-brand-light rounded-xl flex items-center justify-center text-brand-red font-bold text-lg">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cartBadge" class="absolute -top-1.5 -right-1.5 bg-brand-red text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-extrabold border-2 border-white shadow">0</span>
+                </div>
+                <div>
+                    <p class="text-xs text-slate-500 font-medium">Total Amount</p>
+                    <p class="text-base font-extrabold text-slate-900" id="cartTotalPrice">SAR 0.00</p>
+                </div>
+            </div>
+            <button onclick="openCheckoutModal()" class="bg-gradient-to-r from-brand-red to-brand-accent hover:from-brand-accent hover:to-brand-red text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-lg shadow-brand-red/30 flex items-center space-x-2 transition-all active:scale-95">
+                <span>View Cart & Order</span>
+                <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center transition-opacity">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-300 max-h-[90vh] flex flex-col">
+            <div class="relative h-48 bg-slate-100 flex items-center justify-center">
+                <img id="modalImg" src="" alt="Product" class="w-full h-full object-cover">
+                <button onclick="closeProductModal()" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-slate-900/50 hover:bg-slate-900/70 text-white flex items-center justify-center text-sm backdrop-blur-md transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <span id="modalCategory" class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-md text-slate-800 text-[10px] font-bold px-2.5 py-1 rounded-lg"></span>
+            </div>
+            <div class="p-5 space-y-4 overflow-y-auto">
+                <div>
+                    <h3 id="modalTitle" class="text-lg font-extrabold text-slate-900"></h3>
+                    <p id="modalPrice" class="text-brand-red font-extrabold text-base mt-0.5"></p>
+                </div>
+                <p id="modalDesc" class="text-xs text-slate-600 leading-relaxed"></p>
+                
+                <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+                    <span class="text-xs font-bold text-slate-700">Quantity</span>
+                    <div class="flex items-center space-x-3 bg-slate-100 p-1 rounded-xl">
+                        <button onclick="adjustModalQty(-1)" class="w-8 h-8 rounded-lg bg-white shadow-sm text-slate-700 flex items-center justify-center text-sm font-bold hover:bg-slate-50 transition-all">
+                            <i class="fa-solid fa-minus text-xs"></i>
+                        </button>
+                        <span id="modalQty" class="font-extrabold text-sm w-6 text-center">1</span>
+                        <button onclick="adjustModalQty(1)" class="w-8 h-8 rounded-lg bg-white shadow-sm text-slate-700 flex items-center justify-center text-sm font-bold hover:bg-slate-50 transition-all">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button id="modalAddBtn" onclick="addModalToCart()" class="w-full bg-brand-red hover:bg-brand-accent text-white py-3 rounded-xl font-extrabold text-xs shadow-lg shadow-brand-red/25 flex items-center justify-center space-x-2 transition-all active:scale-[0.98]">
+                    <i class="fa-solid fa-cart-plus"></i>
+                    <span>Add to Order</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout / Order Modal (WhatsApp & Cash on Delivery) -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center transition-opacity">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-300 max-h-[90vh] flex flex-col">
+            <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-lg bg-brand-light text-brand-red flex items-center justify-center font-bold">
+                        <i class="fa-solid fa-receipt text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-slate-900 text-sm">Your Order Summary</h3>
+                        <p class="text-[10px] text-slate-500">No account required • Cash on Delivery</p>
+                    </div>
+                </div>
+                <button onclick="closeCheckoutModal()" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs transition-all">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="p-5 space-y-4 overflow-y-auto flex-1">
+                <!-- Cart Items List -->
+                <div id="checkoutItemsList" class="space-y-3 divide-y divide-slate-100">
+                    <!-- Populated via JS -->
+                </div>
+
+                <!-- Customer Details Form -->
+                <div class="space-y-3 pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Delivery Details</h4>
+                    
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Your Name *</label>
+                        <input type="text" id="customerName" placeholder="e.g. Ahmed / Shakil" 
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Building / Office / Room No. *</label>
+                        <input type="text" id="customerLocation" placeholder="e.g. Building 4, Office 202" 
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">WhatsApp Number *</label>
+                        <input type="tel" id="customerPhone" placeholder="e.g. +966 5X XXX XXXX" 
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Special Instructions (Optional)</label>
+                        <input type="text" id="customerNotes" placeholder="e.g. Extra spicy ramen please" 
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
+                    </div>
+                </div>
+
+                <!-- Payment Notice -->
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 flex items-start space-x-2.5">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-sm mt-0.5"></i>
+                    <div class="text-[11px] text-emerald-900">
+                        <span class="font-bold">Payment Method:</span> Cash on Delivery (COD). Please have exact change ready when delivery arrives.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer with WhatsApp Submit -->
+            <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] text-slate-500 block">Total Amount</span>
+                    <span id="checkoutTotal" class="text-base font-extrabold text-slate-900">SAR 0.00</span>
+                </div>
+                <button onclick="sendOrderToWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl font-extrabold text-xs shadow-lg shadow-emerald-600/25 flex items-center space-x-2 transition-all active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>Send Order to WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-full text-xs font-bold shadow-xl transition-all duration-300 opacity-0 pointer-events-none flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMsg">Added to cart</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Product Catalog Data
+        const products = [
+            {
+                id: 1,
+                name: "Nongshim Shin Kimchi",
+                category: "Ramen",
+                price: 8.00,
+                image: "https://i.postimg.cc/9cF8s5Gr/Nongshim-Shin-Kimchi.jpg",
+                description: "a popular instant noodle that blends the classic spicy heat of Shin Ramyun with the tangy, savory taste of fermented Korean kimchi"
+            },
+            {
+                id: 2,
+                name: "Nongshim Shin Cup Noodle Soup Hot Pepper",
+                category: "Ramen",
+                price: 8.00,
+                image: "https://i.postimg.cc/VkfFtzZ3/Nongshim-Shin-Cup-Noodle-Soup-Hot-Pepper.jpg",
+                description: "a popular Korean instant noodle cup featuring a signature spicy beef and red pepper broth, chewy noodles, and dried vegetable flakes"
+            },
+            {
+                id: 3,
+                name: "Samyang Carbonara Buldak Spicy Ramen",
+                category: "Ramen",
+                price: 8.00,
+                image: "https://i.postimg.cc/vZkt6K24/Samyang-Carbonara-Buldak-Spicy-Ramen.jpg",
+                description: "combines spicy Korean hot chicken flavor with a smooth, creamy cheese and carbonara powder mix"
+            },
+            {
+                id: 4,
+                name: "Samyang Cheese Buldak Spicy Ramen Hot Chicken Flavour",
+                category: "Ramen",
+                price: 8.00,
+                image: "https://i.postimg.cc/DwHPbNpy/Samyang-Cheese-Buldak-Spicy-Ramen-Hot-Chicken-Flavour.jpg",
+                description: "a popular stir-fried instant noodle dish that combines Samyang's signature fiery hot chicken sauce with a savory cheese powder and sauce"
+            },
+            {
+                id: 5,
+                name: "Samyang Original Buldak Spicy Ramen",
+                category: "Ramen",
+                price: 8.00,
+                image: "https://i.postimg.cc/mDG3mHsW/Samyang-Original-Buldak-Spicy-Ramen.jpg",
+                description: "a popular Korean stir-fried instant noodle known for its intense, fiery flavor and chewy noodles"
+            },
+            {
+                id: 6,
+                name: "Korean Ricecake Topokki Carbonara",
+                category: "Topokki & Rapokki",
+                price: 18.00,
+                image: "https://i.postimg.cc/XJ0KsCbX/Korean-Ricecake-Topokki-Carbonara.jpg",
+                description: "Soft chocolate-coated cakes filled with marshmallow cream layers."
+            },
+            {
+                id: 7,
+                name: "Korean Ricecake Topokki Cheese",
+                category: "Topokki & Rapokki",
+                price: 18.00,
+                image: "https://i.postimg.cc/ZRhPwdS5/Korean-Ricecake-Topokki-Cheese.jpg",
+                description: "Good Seoul Korean Rice Cake Topokki Cheese"
+            },
+            {
+                id: 8,
+                name: "Korean Ricecake with Ramen Rapokki Cheese",
+                category: "Topokki & Rapokki",
+                price: 17.00,
+                image: "https://i.postimg.cc/W3Pm5kvz/Korean-Ricecake-with-Ramen-Rapokki-Cheese.jpg",
+                description: "Cheese rabokki is a popular Korean street food dish that combines chewy Korean rice cakes (tteokbokki) and instant ramen noodles in a sweet, spicy gochujang sauce, topped with melted cheese."
+            },
+            {
+                id: 9,
+                name: "Korean Ricecake with Ramen Rapokki Carbonara",
+                category: "Topokki & Rapokki",
+                price: 17.00,
+                image: "https://i.postimg.cc/zBSC6Gzy/Korean-Ricecake-with-Ramen-Rapokki-Carbonara.jpg",
+                description: "a popular Korean fusion dish that combines chewy rice cakes (tteokbokki) and springy instant ramen (ramyeon) in a rich, creamy carbonara sauce"
+            },
+            {
+                id: 10,
+                name: "Maxim Mocha Gold Mild",
+                category: "Smooth Coffee",
+                price: 3.00,
+                image: "https://i.postimg.cc/DwHPbNpk/Maxim-Mocha-Gold-Mild.jpg",
+                description: "South Korea's number-one bestselling instant coffee mix"
+            },
+            {
+                id: 11,
+                name: "Maxim Supreme Gold",
+                category: "Smooth Coffee",
+                price: 4.00,
+                image: "https://i.postimg.cc/gJqVQ2zZ/Maxim-Supreme-Gold.jpg",
+                description: "a popular premium 3-in-1 instant coffee mix produced by Dong Seo (Dongsuh) Foods in South Korea"
+            },
+            {
+                id: 12,
+                name: "Water 6X1.5L",
+                category: "Liquid",
+                price: 0,
+                isComingSoon: true,
+                image: "https://i.postimg.cc/nrn11Zcc/WATER.jpg",
+                description: "Drinking Water"
+            }
+        ];
+
+        // State Management
+        let cart = {}; // { productId: quantity }
+        let currentCategory = 'all';
+        let selectedProductForModal = null;
+        let modalQuantity = 1;
+
+        // WhatsApp Group Phone or Group Link Configuration
+        const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/YOUR_GROUP_INVITE_LINK"; 
+        const WHATSAPP_PHONE_FALLBACK = "966500000000"; // Replace with your group admin WhatsApp number (with country code, no +)
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            setupSearch();
+        });
+
+        // Render Product Cards
+        function renderProducts(items) {
+            const grid = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptyState');
+            grid.innerHTML = '';
+
+            if (items.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            items.forEach(product => {
+                const qtyInCart = cart[product.id] || 0;
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl p-3 border border-slate-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between group";
+                
+                let priceDisplay = product.isComingSoon ? 
+                    `<p class="text-slate-400 font-extrabold text-xs">Coming Soon</p>` : 
+                    `<p class="text-brand-red font-extrabold text-xs">SAR ${product.price.toFixed(2)}</p>`;
+
+                let actionButton = product.isComingSoon ? 
+                    `<button disabled class="w-full bg-slate-100 text-slate-400 py-1.5 rounded-xl font-bold text-xs cursor-not-allowed">Soon</button>` :
+                    (qtyInCart === 0 ? `
+                        <button onclick="quickAddToCart(${product.id})" class="w-full bg-brand-light text-brand-red hover:bg-brand-red hover:text-white py-1.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center space-x-1.5">
+                            <i class="fa-solid fa-plus text-[10px]"></i>
+                            <span>Add</span>
+                        </button>
+                    ` : `
+                        <div class="flex items-center justify-between w-full bg-slate-100 rounded-xl p-1">
+                            <button onclick="updateCartQty(${product.id}, -1)" class="w-6 h-6 bg-white rounded-lg shadow-xs text-slate-700 font-bold text-xs flex items-center justify-center hover:bg-slate-50">
+                                <i class="fa-solid fa-minus text-[10px]"></i>
+                            </button>
+                            <span class="font-extrabold text-xs text-slate-800">${qtyInCart}</span>
+                            <button onclick="updateCartQty(${product.id}, 1)" class="w-6 h-6 bg-white rounded-lg shadow-xs text-slate-700 font-bold text-xs flex items-center justify-center hover:bg-slate-50">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                            </button>
+                        </div>
+                    `);
+
+                card.innerHTML = `
+                    <div onclick="openProductModal(${product.id})" class="cursor-pointer">
+                        <div class="relative w-full h-32 bg-slate-100 rounded-xl overflow-hidden mb-2.5">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute top-2 left-2 bg-white/90 backdrop-blur-md text-[10px] font-bold text-slate-700 px-2 py-0.5 rounded-md shadow-xs">
+                                ${product.category}
+                            </span>
+                        </div>
+                        <h3 class="font-bold text-slate-800 text-xs line-clamp-2 mb-1 group-hover:text-brand-red transition-colors">${product.name}</h3>
+                        ${priceDisplay}
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between">
+                        ${actionButton}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Category Filtering
+        function filterCategory(category) {
+            currentCategory = category;
+            
+            // Update active button styles
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-category') === category) {
+                    btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-brand-red text-white shadow-md shadow-brand-red/20";
+                } else {
+                    btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm";
+                }
+            });
+
+            applyFilters();
+        }
+
+        // Search Setup
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', () => {
+                applyFilters();
+            });
+        }
+
+        function applyFilters() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            let filtered = products;
+
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            if (query.trim() !== '') {
+                filtered = filtered.filter(p => 
+                    p.name.toLowerCase().includes(query) || 
+                    p.category.toLowerCase().includes(query) ||
+                    p.description.toLowerCase().includes(query)
+                );
+            }
+
+            renderProducts(filtered);
+        }
+
+        // Quick Add to Cart
+        function quickAddToCart(productId) {
+            const product = products.find(p => p.id == productId);
+            if (product && product.isComingSoon) return;
+
+            cart[productId] = (cart[productId] || 0) + 1;
+            updateCartBar();
+            applyFilters();
+            showToast("Added item to cart");
+        }
+
+        // Update Cart Quantity directly
+        function updateCartQty(productId, delta) {
+            if (cart[productId]) {
+                cart[productId] += delta;
+                if (cart[productId] <= 0) {
+                    delete cart[productId];
+                }
+            }
+            updateCartBar();
+            applyFilters();
+        }
+
+        // Update Bottom Cart Bar and Badge
+        function updateCartBar() {
+            const cartBar = document.getElementById('cartBar');
+            const cartBadge = document.getElementById('cartBadge');
+            const cartTotalPrice = document.getElementById('cartTotalPrice');
+
+            let totalCount = 0;
+            let totalPrice = 0;
+
+            for (const [id, qty] of Object.entries(cart)) {
+                const prod = products.find(p => p.id == id);
+                if (prod && !prod.isComingSoon) {
+                    totalCount += qty;
+                    totalPrice += prod.price * qty;
+                }
+            }
+
+            cartBadge.textContent = totalCount;
+            cartTotalPrice.textContent = `SAR ${totalPrice.toFixed(2)}`;
+
+            if (totalCount > 0) {
+                cartBar.classList.remove('translate-y-full');
+            } else {
+                cartBar.classList.add('translate-y-full');
+            }
+        }
+
+        // Product Modal Functions
+        function openProductModal(productId) {
+            const product = products.find(p => p.id == productId);
+            if (!product) return;
+
+            selectedProductForModal = product;
+            modalQuantity = 1;
+
+            document.getElementById('modalImg').src = product.image;
+            document.getElementById('modalCategory').textContent = product.category;
+            document.getElementById('modalTitle').textContent = product.name;
+            
+            const modalPriceElem = document.getElementById('modalPrice');
+            const modalAddBtn = document.getElementById('modalAddBtn');
+
+            if (product.isComingSoon) {
+                modalPriceElem.textContent = "Coming Soon";
+                modalPriceElem.className = "text-slate-400 font-extrabold text-base mt-0.5";
+                modalAddBtn.disabled = true;
+                modalAddBtn.className = "w-full bg-slate-200 text-slate-400 py-3 rounded-xl font-extrabold text-xs cursor-not-allowed";
+                modalAddBtn.innerHTML = '<span>Coming Soon</span>';
+            } else {
+                modalPriceElem.textContent = `SAR ${product.price.toFixed(2)}`;
+                modalPriceElem.className = "text-brand-red font-extrabold text-base mt-0.5";
+                modalAddBtn.disabled = false;
+                modalAddBtn.className = "w-full bg-brand-red hover:bg-brand-accent text-white py-3 rounded-xl font-extrabold text-xs shadow-lg shadow-brand-red/25 flex items-center justify-center space-x-2 transition-all active:scale-[0.98]";
+                modalAddBtn.innerHTML = '<i class="fa-solid fa-cart-plus"></i><span>Add to Order</span>';
+            }
+
+            document.getElementById('modalDesc').textContent = product.description;
+            document.getElementById('modalQty').textContent = modalQuantity;
+
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        function adjustModalQty(delta) {
+            if (selectedProductForModal && selectedProductForModal.isComingSoon) return;
+            modalQuantity += delta;
+            if (modalQuantity < 1) modalQuantity = 1;
+            document.getElementById('modalQty').textContent = modalQuantity;
+        }
+
+        function addModalToCart() {
+            if (!selectedProductForModal || selectedProductForModal.isComingSoon) return;
+            cart[selectedProductForModal.id] = (cart[selectedProductForModal.id] || 0) + modalQuantity;
+            updateCartBar();
+            applyFilters();
+            closeProductModal();
+            showToast(`Added ${modalQuantity}x to cart`);
+        }
+
+        // Checkout Modal Functions
+        function openCheckoutModal() {
+            const listContainer = document.getElementById('checkoutItemsList');
+            listContainer.innerHTML = '';
+
+            let totalPrice = 0;
+
+            for (const [id, qty] of Object.entries(cart)) {
+                const prod = products.find(p => p.id == id);
+                if (prod && !prod.isComingSoon) {
+                    const itemTotal = prod.price * qty;
+                    totalPrice += itemTotal;
+
+                    const row = document.createElement('div');
+                    row.className = "py-2.5 flex items-center justify-between";
+                    row.innerHTML = `
+                        <div class="flex items-center space-x-2.5 flex-1 pr-3">
+                            <img src="${prod.image}" class="w-10 h-10 rounded-lg object-cover bg-slate-100 flex-shrink-0">
+                            <div>
+                                <h5 class="font-bold text-slate-800 text-xs line-clamp-1">${prod.name}</h5>
+                                <p class="text-[11px] text-slate-500">SAR ${prod.price.toFixed(2)} × ${qty}</p>
+                            </div>
+                        </div>
+                        <div class="text-right flex items-center space-x-3">
+                            <span class="font-extrabold text-xs text-slate-900">SAR ${itemTotal.toFixed(2)}</span>
+                            <div class="flex items-center space-x-1 bg-slate-100 rounded-lg p-0.5">
+                                <button onclick="updateCartQty(${prod.id}, -1); openCheckoutModal();" class="w-5 h-5 bg-white rounded text-slate-700 font-bold text-[10px] flex items-center justify-center shadow-xs">
+                                    <i class="fa-solid fa-minus text-[8px]"></i>
+                                </button>
+                                <button onclick="updateCartQty(${prod.id}, 1); openCheckoutModal();" class="w-5 h-5 bg-white rounded text-slate-700 font-bold text-[10px] flex items-center justify-center shadow-xs">
+                                    <i class="fa-solid fa-plus text-[8px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    listContainer.appendChild(row);
+                }
+            }
+
+            document.getElementById('checkoutTotal').textContent = `SAR ${totalPrice.toFixed(2)}`;
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        // WhatsApp Order Submission
+        function sendOrderToWhatsApp() {
+            const name = document.getElementById('customerName').value.trim();
+            const location = document.getElementById('customerLocation').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const notes = document.getElementById('customerNotes').value.trim();
+
+            if (!name || !location || !phone) {
+                alert("Please fill in your Name, Location / Office, and WhatsApp Number.");
+                return;
+            }
+
+            // Build order text message
+            let message = `🛒 *NEW K-SNACKEXPRESS ORDER* 🇰🇷\n\n`;
+            message += `👤 *Name:* ${name}\n`;
+            message += `📍 *Location:* ${location}\n`;
+            message += `📞 *Phone:* ${phone}\n`;
+            if (notes) {
+                message += `📝 *Notes:* ${notes}\n`;
+            }
+            message += `💵 *Payment:* Cash on Delivery (COD)\n\n`;
+            message += `--- *ORDER ITEMS* ---\n`;
+
+            let totalPrice = 0;
+            for (const [id, qty] of Object.entries(cart)) {
+                const prod = products.find(p => p.id == id);
+                if (prod && !prod.isComingSoon) {
+                    const itemTotal = prod.price * qty;
+                    totalPrice += itemTotal;
+                    message += `• ${prod.name} x ${qty} = SAR ${itemTotal.toFixed(2)}\n`;
+                }
+            }
+
+            message += `\n💰 *TOTAL AMOUNT: SAR ${totalPrice.toFixed(2)}*\n\n`;
+            message += `_Please confirm this order and delivery!_`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE_FALLBACK}?text=${encodedMessage}`;
+            
+            // Clear cart & close modals
+            cart = {};
+            updateCartBar();
+            closeCheckoutModal();
+            
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+            showToast("Order ready! Opening WhatsApp...");
+        }
+
+        // Toast Notification Helper
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
