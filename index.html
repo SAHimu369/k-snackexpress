@@ -60,7 +60,7 @@
             </div>
             
             <!-- Quick WhatsApp Group Button -->
-            <a href="https://chat.whatsapp.com/YOUR_GROUP_INVITE_LINK" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-3 py-1.5 rounded-full text-xs font-bold transition-all border border-emerald-200 shadow-sm">
+            <a href="https://chat.whatsapp.com/F9DW6XbwVI9E7Kf7hpZbTE?s=cl&p=a&iam=2" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 px-3 py-1.5 rounded-full text-xs font-bold transition-all border border-emerald-200 shadow-sm">
                 <i class="fa-brands fa-whatsapp text-emerald-600 text-sm"></i>
                 <span>Join Group</span>
             </a>
@@ -75,13 +75,13 @@
             <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-brand-red/20 rounded-full blur-2xl pointer-events-none"></div>
             <div class="relative z-10 space-y-2">
                 <span class="inline-flex items-center gap-1 bg-brand-red/30 border border-brand-red/40 text-brand-light text-[11px] font-semibold px-2.5 py-0.5 rounded-full">
-                    <i class="fa-solid fa-fire text-brand-accent"></i> Direct WhatsApp Ordering
+                    <i class="fa-solid fa-fire text-brand-accent"></i> Direct WhatsApp Group Ordering
                 </span>
                 <h2 class="text-xl font-bold tracking-tight text-white leading-snug">
                     Authentic Korean Treats, Delivered Fresh! 🍜
                 </h2>
                 <p class="text-xs text-slate-300 leading-relaxed">
-                    Craving Buldak ramen, tteokbokki, or crispy snacks? Order instantly to our WhatsApp group. Pay safely in cash on delivery.
+                    Craving Buldak ramen, tteokbokki, or coffee? Order instantly to our WhatsApp group. Pay safely in cash on delivery.
                 </p>
                 <div class="pt-2 flex items-center gap-3 text-xs text-slate-200 font-medium">
                     <span class="flex items-center gap-1"><i class="fa-solid fa-truck-fast text-brand-accent"></i> Fast Delivery</span>
@@ -192,7 +192,7 @@
         </div>
     </div>
 
-    <!-- Checkout / Order Modal (WhatsApp & Cash on Delivery) -->
+    <!-- Checkout / Order Modal (WhatsApp Group & Cash on Delivery) -->
     <div id="checkoutModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center transition-opacity">
         <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-300 max-h-[90vh] flex flex-col">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between">
@@ -262,7 +262,7 @@
                 </div>
                 <button onclick="sendOrderToWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl font-extrabold text-xs shadow-lg shadow-emerald-600/25 flex items-center space-x-2 transition-all active:scale-95">
                     <i class="fa-brands fa-whatsapp text-base"></i>
-                    <span>Send Order to WhatsApp</span>
+                    <span>Send Order to WhatsApp Group</span>
                 </button>
             </div>
         </div>
@@ -383,9 +383,8 @@
         let selectedProductForModal = null;
         let modalQuantity = 1;
 
-        // WhatsApp Group Phone or Group Link Configuration
-        const WHATSAPP_GROUP_LINK = "https://chat.whatsapp.com/YOUR_GROUP_INVITE_LINK"; 
-        const WHATSAPP_PHONE_FALLBACK = "966500000000"; // Replace with your group admin WhatsApp number (with country code, no +)
+        // WhatsApp Group URL configuration
+        const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/F9DW6XbwVI9E7Kf7hpZbTE?s=cl&p=a&iam=2"; 
 
         // Initialization
         document.addEventListener('DOMContentLoaded', () => {
@@ -649,7 +648,7 @@
             document.getElementById('checkoutModal').classList.add('hidden');
         }
 
-        // WhatsApp Order Submission
+        // WhatsApp Group Order Submission
         function sendOrderToWhatsApp() {
             const name = document.getElementById('customerName').value.trim();
             const location = document.getElementById('customerLocation').value.trim();
@@ -683,19 +682,26 @@
             }
 
             message += `\n💰 *TOTAL AMOUNT: SAR ${totalPrice.toFixed(2)}*\n\n`;
-            message += `_Please confirm this order and delivery!_`;
+            message += `_Please confirm this order!_`;
 
             const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE_FALLBACK}?text=${encodedMessage}`;
+            
+            // Note: WhatsApp does not allow direct automated posting into group chats via URL links for security, 
+            // so we prompt the user to join the group or send the pre-filled text to the group chat.
+            // Opening the group join link or fallback share intent:
+            window.open(WHATSAPP_GROUP_URL, '_blank');
+            
+            // Also copy order text to clipboard for convenience
+            navigator.clipboard.writeText(message).then(() => {
+                showToast("Order copied & opening WhatsApp group!");
+            }).catch(() => {
+                showToast("Opening WhatsApp group!");
+            });
             
             // Clear cart & close modals
             cart = {};
             updateCartBar();
             closeCheckoutModal();
-            
-            // Open WhatsApp
-            window.open(whatsappUrl, '_blank');
-            showToast("Order ready! Opening WhatsApp...");
         }
 
         // Toast Notification Helper
