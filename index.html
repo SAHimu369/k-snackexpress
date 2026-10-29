@@ -29,7 +29,6 @@
         }
     </script>
     <style>
-        /* Custom scrollbar hiding for clean mobile carousel */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -54,7 +53,7 @@
                 <div>
                     <h1 class="font-extrabold text-slate-900 text-base leading-tight tracking-tight">K-Snack<span class="text-brand-red">Express</span></h1>
                     <p class="text-[10px] text-slate-500 font-medium flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Cash on Delivery • WhatsApp Orders
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Cash on Delivery • Direct WhatsApp Orders
                     </p>
                 </div>
             </div>
@@ -67,21 +66,21 @@
         </div>
     </header>
 
-    <!-- Main Content Container (Mobile App Frame Style) -->
+    <!-- Main Content Container -->
     <main class="max-w-md mx-auto px-4 pt-4 space-y-5">
 
-        <!-- Hero Banner Carousel / Card -->
+        <!-- Hero Banner -->
         <section class="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-brand-dark text-white p-5 shadow-xl shadow-slate-900/10">
             <div class="absolute -right-8 -bottom-8 w-36 h-36 bg-brand-red/20 rounded-full blur-2xl pointer-events-none"></div>
             <div class="relative z-10 space-y-2">
                 <span class="inline-flex items-center gap-1 bg-brand-red/30 border border-brand-red/40 text-brand-light text-[11px] font-semibold px-2.5 py-0.5 rounded-full">
-                    <i class="fa-solid fa-fire text-brand-accent"></i> Direct WhatsApp Group Ordering
+                    <i class="fa-solid fa-fire text-brand-accent"></i> Direct WhatsApp Ordering
                 </span>
                 <h2 class="text-xl font-bold tracking-tight text-white leading-snug">
                     Authentic Korean Treats, Delivered Fresh! 🍜
                 </h2>
                 <p class="text-xs text-slate-300 leading-relaxed">
-                    Craving Buldak ramen, Topokki & Rapokki, Liquid or Smooth Coffee ? Order instantly to our WhatsApp group. Pay safely in cash on delivery.
+                    Craving Buldak ramen, tteokbokki, or coffee? Order instantly via WhatsApp. Pay safely in cash on delivery.
                 </p>
                 <div class="pt-2 flex items-center gap-3 text-xs text-slate-200 font-medium">
                     <span class="flex items-center gap-1"><i class="fa-solid fa-truck-fast text-brand-accent"></i> Fast Delivery</span>
@@ -134,7 +133,7 @@
 
     </main>
 
-    <!-- Floating / Sticky Bottom Cart Bar -->
+    <!-- Floating Bottom Cart Bar -->
     <div id="cartBar" class="fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-2xl transition-transform duration-300 transform translate-y-full">
         <div class="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -192,7 +191,7 @@
         </div>
     </div>
 
-    <!-- Checkout / Order Modal (WhatsApp Group & Cash on Delivery) -->
+    <!-- Checkout Modal -->
     <div id="checkoutModal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-end sm:items-center justify-center transition-opacity">
         <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-2xl overflow-hidden shadow-2xl transform transition-transform duration-300 max-h-[90vh] flex flex-col">
             <div class="p-4 border-b border-slate-100 flex items-center justify-between">
@@ -222,13 +221,13 @@
                     
                     <div>
                         <label class="block text-[11px] font-bold text-slate-600 mb-1">Your Name *</label>
-                        <input type="text" id="customerName" placeholder="e.g. Ahmed / Shakil" 
+                        <input type="text" id="customerName" placeholder="Your Name" 
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
                     </div>
 
                     <div>
                         <label class="block text-[11px] font-bold text-slate-600 mb-1">Building / Office / Room No. *</label>
-                        <input type="text" id="customerLocation" placeholder="e.g. Building 4, Office 202" 
+                        <input type="text" id="customerLocation" placeholder="e.g. office 4, room 202" 
                             class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-red/20 focus:border-brand-red transition-all">
                     </div>
 
@@ -262,7 +261,7 @@
                 </div>
                 <button onclick="sendOrderToWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl font-extrabold text-xs shadow-lg shadow-emerald-600/25 flex items-center space-x-2 transition-all active:scale-95">
                     <i class="fa-brands fa-whatsapp text-base"></i>
-                    <span>Send Order to WhatsApp Group</span>
+                    <span>Send Order to WhatsApp</span>
                 </button>
             </div>
         </div>
@@ -276,7 +275,6 @@
 
     <!-- JavaScript Application Logic -->
     <script>
-        // Product Catalog Data
         const products = [
             {
                 id: 1,
@@ -377,22 +375,19 @@
             }
         ];
 
-        // State Management
-        let cart = {}; // { productId: quantity }
+        let cart = {};
         let currentCategory = 'all';
         let selectedProductForModal = null;
         let modalQuantity = 1;
 
-        // WhatsApp Group URL configuration
-        const WHATSAPP_GROUP_URL = "https://chat.whatsapp.com/F9DW6XbwVI9E7Kf7hpZbTE?s=cl&p=a&iam=2"; 
+        // Admin WhatsApp Number (Direct chat message destination)
+        const ADMIN_WHATSAPP_NUMBER = "+9779745459919"; 
 
-        // Initialization
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             setupSearch();
         });
 
-        // Render Product Cards
         function renderProducts(items) {
             const grid = document.getElementById('productGrid');
             const emptyState = document.getElementById('emptyState');
@@ -452,11 +447,8 @@
             });
         }
 
-        // Category Filtering
         function filterCategory(category) {
             currentCategory = category;
-            
-            // Update active button styles
             document.querySelectorAll('.cat-btn').forEach(btn => {
                 if (btn.getAttribute('data-category') === category) {
                     btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-brand-red text-white shadow-md shadow-brand-red/20";
@@ -464,14 +456,11 @@
                     btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap bg-white text-slate-600 border border-slate-200 hover:border-slate-300 shadow-sm";
                 }
             });
-
             applyFilters();
         }
 
-        // Search Setup
         function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', () => {
+            document.getElementById('searchInput').addEventListener('input', () => {
                 applyFilters();
             });
         }
@@ -495,7 +484,6 @@
             renderProducts(filtered);
         }
 
-        // Quick Add to Cart
         function quickAddToCart(productId) {
             const product = products.find(p => p.id == productId);
             if (product && product.isComingSoon) return;
@@ -506,7 +494,6 @@
             showToast("Added item to cart");
         }
 
-        // Update Cart Quantity directly
         function updateCartQty(productId, delta) {
             if (cart[productId]) {
                 cart[productId] += delta;
@@ -518,7 +505,6 @@
             applyFilters();
         }
 
-        // Update Bottom Cart Bar and Badge
         function updateCartBar() {
             const cartBar = document.getElementById('cartBar');
             const cartBadge = document.getElementById('cartBadge');
@@ -545,7 +531,6 @@
             }
         }
 
-        // Product Modal Functions
         function openProductModal(productId) {
             const product = products.find(p => p.id == productId);
             if (!product) return;
@@ -576,9 +561,7 @@
 
             document.getElementById('modalDesc').textContent = product.description;
             document.getElementById('modalQty').textContent = modalQuantity;
-
-            const modal = document.getElementById('productModal');
-            modal.classList.remove('hidden');
+            document.getElementById('productModal').classList.remove('hidden');
         }
 
         function closeProductModal() {
@@ -601,7 +584,6 @@
             showToast(`Added ${modalQuantity}x to cart`);
         }
 
-        // Checkout Modal Functions
         function openCheckoutModal() {
             const listContainer = document.getElementById('checkoutItemsList');
             listContainer.innerHTML = '';
@@ -648,7 +630,7 @@
             document.getElementById('checkoutModal').classList.add('hidden');
         }
 
-        // WhatsApp Group Order Submission
+        // Send Order Directly with Pre-Filled Message via WhatsApp API
         function sendOrderToWhatsApp() {
             const name = document.getElementById('customerName').value.trim();
             const location = document.getElementById('customerLocation').value.trim();
@@ -682,29 +664,23 @@
             }
 
             message += `\n💰 *TOTAL AMOUNT: SAR ${totalPrice.toFixed(2)}*\n\n`;
-            message += `_Please confirm this order!_`;
+            message += `_Please confirm this order and delivery!_`;
 
             const encodedMessage = encodeURIComponent(message);
             
-            // Note: WhatsApp does not allow direct automated posting into group chats via URL links for security, 
-            // so we prompt the user to join the group or send the pre-filled text to the group chat.
-            // Opening the group join link or fallback share intent:
-            window.open(WHATSAPP_GROUP_URL, '_blank');
-            
-            // Also copy order text to clipboard for convenience
-            navigator.clipboard.writeText(message).then(() => {
-                showToast("Order copied & opening WhatsApp group!");
-            }).catch(() => {
-                showToast("Opening WhatsApp group!");
-            });
+            // Opens WhatsApp chat directly with your number and the message typed out
+            const whatsappUrl = `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodedMessage}`;
             
             // Clear cart & close modals
             cart = {};
             updateCartBar();
             closeCheckoutModal();
+            
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+            showToast("Opening WhatsApp with your order!");
         }
 
-        // Toast Notification Helper
         function showToast(msg) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').textContent = msg;
